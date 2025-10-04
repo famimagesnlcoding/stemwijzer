@@ -4790,7 +4790,113 @@ function goodCloseModal() {
 // ✅ CORRECT: Tab trap (zie sectie 12.1)
 ```
 
-## 13.5 CSS DON'Ts
+## 13.5 Content & Writing DON'Ts
+
+### ❌ NO EMOJIS (Critical for AI Agents!)
+
+**IMPORTANT: Stemwijzer heeft een STRICT no-emoji policy in content.**
+
+```html
+<!-- ❌ WRONG: Emojis in user-facing text -->
+<h1>Welkom bij de Stemwijzer! 🗳️</h1>
+<button>Start de quiz ✨</button>
+<p>Geweldig gedaan! 🎉</p>
+
+<!-- ✅ CORRECT: Geen emojis in content -->
+<h1>Welkom bij de Stemwijzer</h1>
+<button>Start de quiz</button>
+<p>Geweldig gedaan!</p>
+
+<!-- ❌ WRONG: Emojis in error messages -->
+<div class="error">❌ Dit veld is verplicht</div>
+
+<!-- ✅ CORRECT: Icons in plaats van emojis -->
+<div class="error">
+  <i class="bi bi-exclamation-circle"></i>
+  Dit veld is verplicht
+</div>
+
+<!-- ❌ WRONG: Emojis in button text -->
+<button>Opslaan 💾</button>
+
+<!-- ✅ CORRECT: Bootstrap Icon -->
+<button>
+  <i class="bi bi-save"></i>
+  Opslaan
+</button>
+```
+
+**ENIGE UITZONDERING: Custom cursor**
+
+```css
+/* ✅ CORRECT: ENIGE plaats waar emoji mag */
+body, html, * {
+  cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="34" height="34"><text x="0" y="28" font-size="28">✍</text></svg>') 3 25, auto;
+}
+/* Dit is de ENIGE emoji in de hele applicatie */
+```
+
+**Waarom geen emojis?**
+- ❌ Inconsistent rendering tussen devices (Windows vs Mac vs Linux)
+- ❌ Niet professioneel (te casual voor politieke tool)
+- ❌ Accessibility issues (screen readers lezen emoji letterlijk voor)
+- ❌ Tone of voice conflict (Stemwijzer = serieus maar toegankelijk)
+- ✅ Bootstrap Icons: 2000+ consistent, scalable, accessible icons
+
+**Voor AI Agents:**
+```
+RULE: Gebruik NOOIT emojis in code, content, commits, of documentatie.
+ALTIJD: Gebruik Bootstrap Icons (bi-{name}) voor visuele elementen.
+ENIGE UITZONDERING: Custom cursor (✍) - maar dat is al geïmplementeerd.
+```
+
+**Voorbeeld conversie:**
+
+```html
+<!-- AI Agent genereert vaak: -->
+<h2>Resultaten 🎯</h2>
+<p>Perfect! 👍 Je hebt alle stellingen beantwoord 🎉</p>
+
+<!-- MOET zijn: -->
+<h2>
+  <i class="bi bi-bullseye"></i>
+  Resultaten
+</h2>
+<p>
+  <i class="bi bi-check-circle text-green"></i>
+  Perfect! Je hebt alle stellingen beantwoord
+</p>
+```
+
+### ❌ Tone of Voice DON'Ts
+
+```html
+<!-- ❌ WRONG: Te casual -->
+<p>Hey! Kies je favoriete partij!</p>
+
+<!-- ✅ CORRECT: Vriendelijk maar professioneel -->
+<p>Ontdek welke partij het beste bij jou past</p>
+
+<!-- ❌ WRONG: Te formeel/betuttelend -->
+<p>Het is van essentieel belang dat u uw keuze zorgvuldig overweegt.</p>
+
+<!-- ✅ CORRECT: Toegankelijk zonder kinderachtig -->
+<p>Neem de tijd om elke stelling goed te lezen.</p>
+
+<!-- ❌ WRONG: Opdringerig -->
+<p>Stem NU! Mis deze kans niet!</p>
+
+<!-- ✅ CORRECT: Uitnodigend -->
+<p>Start de kieswijzer</p>
+
+<!-- ❌ WRONG: Politieke lading -->
+<p>Help Nederland vooruit!</p>
+
+<!-- ✅ CORRECT: Neutraal -->
+<p>Ontdek welke partij bij jouw opvattingen past</p>
+```
+
+## 13.6 CSS DON'Ts
 
 ### ❌ Specificity Wars
 
@@ -4969,8 +5075,195 @@ Total CDN dependencies: ~150KB (gzipped)
 
 ---
 
-**EINDE SUPPLEMENT**
+# 🤖 AI AGENT QUICK REFERENCE
 
-Dit supplement bevat ALLE ontbrekende advanced patterns, complete DON'Ts en testing checklists.
+## Critical Rules voor AI Agents
 
-Merge dit met BRANDSTYLE.md voor volledige documentatie.
+**Als je deze BRANDSTYLE.md leest als AI Agent (Claude, ChatGPT, etc.), volg deze regels STRIKT:**
+
+### ❌ ABSOLUTE NO-GO's
+
+```
+1. ❌ NOOIT emojis in code, content, commits
+   ✅ Gebruik Bootstrap Icons: <i class="bi bi-{name}"></i>
+
+2. ❌ NOOIT dynamische TailwindCSS classes
+   ❌ class="bg-<?php echo $color; ?>"
+   ✅ Gebruik inline styles: style="background-color: <?php echo $hex; ?>"
+
+3. ❌ NOOIT layout properties animeren (width, height, margin, padding)
+   ✅ Gebruik transform & opacity
+
+4. ❌ NOOIT event listeners zonder cleanup
+   ✅ Altijd removeEventListener bij removal
+
+5. ❌ NOOIT modal sluiten zonder body scroll restore
+   ✅ document.body.style.overflow = 'auto'
+
+6. ❌ NOOIT button zonder aria-label als er geen text is
+   ✅ <button aria-label="Beschrijving"><i class="bi-x"></i></button>
+
+7. ❌ NOOIT alleen kleur voor betekenis
+   ✅ Icon + kleur + tekst
+
+8. ❌ NOOIT !important in CSS (tenzij echt noodzakelijk)
+   ✅ Gebruik specificity correct
+
+9. ❌ NOOIT willekeurige px values (23px, 17px)
+   ✅ Gebruik spacing scale (veelvouden van 4px / 0.25rem)
+
+10. ❌ NOOIT custom cursor aanpassen
+    ✅ Gebruik bestaande cursor: url('...') 3 25, auto
+```
+
+### ✅ ALWAYS DO
+
+```
+1. ✅ Gebruik Navy (#1E3A5F) als primaire tekstkleur
+2. ✅ Gebruik Cream (#FEF6E4) als primaire achtergrondkleur
+3. ✅ Font: Noto Sans (body), Domine (headings)
+4. ✅ Buttons: min 48×48px (touch target)
+5. ✅ Animaties: 300-600ms duration, ease-out easing
+6. ✅ requestAnimationFrame voor smooth modal animations
+7. ✅ Tab trap in modals (focus management)
+8. ✅ WCAG AA contrast (min 4.5:1)
+9. ✅ Mobile-first responsive design
+10. ✅ Semantic HTML (nav, main, article, section)
+```
+
+### 📋 Code Generation Checklist
+
+**Voor elke nieuwe component:**
+
+```
+☐ Gebruikt Bootstrap Icons (geen emojis)
+☐ TailwindCSS classes zijn statisch (niet dynamisch)
+☐ Buttons hebben min 48×48px
+☐ Aria-labels bij icon-only buttons
+☐ Keyboard accessible (Tab, Enter, ESC)
+☐ Focus states (outline: 2px solid #FF6B6B)
+☐ Animaties gebruiken transform/opacity
+☐ Event listeners hebben cleanup
+☐ Modal restore body scroll
+☐ Contrast ratio ≥ 4.5:1 (Navy op Cream = 8.2:1 ✅)
+☐ Responsive (mobile 375px → desktop 1920px)
+☐ Spacing gebruikt 4px increments (0.25rem)
+```
+
+### 🎨 Color Quick Reference
+
+```css
+/* Gebruik ALLEEN deze kleuren */
+--coral: #FF6B6B;   /* Accenten, warnings */
+--navy: #1E3A5F;    /* Primaire tekst, knoppen */
+--green: #10B981;   /* Success states */
+--yellow: #FDB750;  /* Highlights, badges */
+--cream: #FEF6E4;   /* Achtergronden */
+
+/* NOOIT custom kleuren toevoegen zonder overleg */
+```
+
+### 📐 Spacing Quick Reference
+
+```css
+/* Gebruik ALLEEN deze spacing values */
+0.25rem  /* 4px  - xs */
+0.5rem   /* 8px  - sm */
+1rem     /* 16px - md */
+1.5rem   /* 24px - lg */
+2rem     /* 32px - xl */
+3rem     /* 48px - 2xl */
+4rem     /* 64px - 3xl */
+
+/* NOOIT: 23px, 17px, 13px, etc. */
+```
+
+### 🔤 Typography Quick Reference
+
+```css
+/* Headings */
+h1 { font: 700 3.75rem/1.1 'Domine', serif; color: #1E3A5F; }
+h2 { font: 700 3rem/1.2 'Domine', serif; color: #1E3A5F; }
+h3 { font: 700 1.875rem/1.3 'Domine', serif; color: #1E3A5F; }
+
+/* Body */
+p { font: 400 1rem/1.6 'Noto Sans', sans-serif; color: #1E3A5F; }
+
+/* NOOIT italic, ALTIJD font-weight: 600 voor emphasis */
+```
+
+### 🎬 Animation Template
+
+```css
+/* ALTIJD deze structuur */
+@keyframes animationName {
+  from {
+    opacity: 0;
+    transform: translateY(20px); /* Transform, NOOIT margin */
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.element {
+  animation: animationName 0.5s ease-out; /* 300-600ms */
+}
+```
+
+### 🪟 Modal Template
+
+```javascript
+// ALTIJD deze structuur gebruiken
+function openModal() {
+  const modal = document.getElementById('modal');
+  modal.classList.remove('hidden');
+  requestAnimationFrame(() => {
+    modal.querySelector('.modal-content').classList.remove('modal-close');
+  });
+  document.body.style.overflow = 'hidden'; // CRITICAL
+}
+
+function closeModal() {
+  const modal = document.getElementById('modal');
+  modal.querySelector('.modal-content').classList.add('modal-close');
+  setTimeout(() => {
+    modal.classList.add('hidden');
+    document.body.style.overflow = 'auto'; // CRITICAL
+  }, 250); // Match CSS animation duration
+}
+```
+
+### 🎯 Tone of Voice Template
+
+```
+❌ WRONG: "Hey! Kies je partij! 🎉"
+❌ WRONG: "Geweldig gedaan! 👍"
+❌ WRONG: "Het is van essentieel belang dat..."
+
+✅ CORRECT: "Ontdek welke partij bij jou past"
+✅ CORRECT: "Je hebt alle stellingen beantwoord"
+✅ CORRECT: "Neem de tijd om elke stelling te lezen"
+
+Tone: Vriendelijk, professioneel, toegankelijk, NEUTRAAL
+```
+
+---
+
+**🎉 EINDE BRANDSTYLE.md**
+
+**Versie:** 2.0 (Complete Edition)
+**Laatst bijgewerkt:** 4 Oktober 2025
+**Totaal:** 5,150+ regels
+**Pagina's:** ~260 pagina's
+**Secties:** 14 hoofdsecties + AI Agent Reference
+
+**Voor designers:** Single source of truth voor alle design beslissingen
+**Voor developers:** Complete implementatie specs met code templates
+**Voor AI agents:** Strikte regels in sectie "AI AGENT QUICK REFERENCE"
+
+**Feedback:** GitHub issues
+**Updates:** Commit naar Git met duidelijke changelog
+
+Voor technische implementatie, zie [TECHNICAL.md](TECHNICAL.md)
